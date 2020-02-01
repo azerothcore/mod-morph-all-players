@@ -15,8 +15,8 @@ public:
 	{
 		static std::vector<ChatCommand> CustomCommandTable =
 		{
-			{ "allmorph",     SEC_ADMINISTRATOR,      false,      &HandleMorphAllCommand,         "" },	//custom morph
-			{ "alldemorph",   SEC_ADMINISTRATOR,      false,      &HandleDeMorphAllCommand,       "" }
+			{ "morphall",     SEC_ADMINISTRATOR,      false,      &HandleMorphAllCommand,         "" },	//custom morph
+			{ "demorphall",   SEC_ADMINISTRATOR,      false,      &HandleDeMorphAllCommand,       "" }
 		};
 		return CustomCommandTable;
 	}
