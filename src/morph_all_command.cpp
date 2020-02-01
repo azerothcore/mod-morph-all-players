@@ -1,14 +1,3 @@
-/*
-
-		This is for AzerothCpre 3.3.5 (25-March-2019)
-
-		What it does?
-		Bassically, it loops through all active sessions and change display id of every online player.
-		Type: .allmorph 999 (this will morph all players into a crab)
-
-		I made it mostly for learning purposes.
-*/
-
 #include "ScriptMgr.h"
 #include "Chat.h"
 #include "Player.h"
@@ -36,11 +25,11 @@ public:
 	{
 		Player * player = handler->GetSession()->GetPlayer();
 
-        bool configSkipAdmin = sConfigMgr->GetBoolDefault("MorphAll.SkipAdmin", true);
+        bool configSkipSpecificGmLevel = sConfigMgr->GetBoolDefault("MorphAll.SkipSpecificGmLevel", true);
 
 		if (!*args)
 			return false;
-		
+
 		uint16 display_id = (uint16)atoi((char*)args);
 
 		if (!display_id)
@@ -53,8 +42,9 @@ public:
             if (!itr->second || !itr->second->GetPlayer() || !itr->second->GetPlayer()->IsInWorld())
                 continue;
 
-            if (configSkipAdmin && itr->second->GetPlayer()->GetSession()->GetSecurity() == SEC_ADMINISTRATOR)
-                continue; // skip if player is Admin
+            // skip depending on player level
+            if (itr->second->GetPlayer()->GetSession()->GetSecurity() >= configSkipSpecificGmLevel)
+                continue;
 
 			itr->second->GetPlayer()->SetDisplayId(display_id);
 		}
@@ -84,7 +74,7 @@ class morph_all_command_World : public WorldScript
 public:
     morph_all_command_World() : WorldScript("morph_all_command_World") { }
 
-    void OnStartup() override 
+    void OnStartup() override
     {
         // Show this On worldserver startup
         sLog->outString("");
@@ -96,7 +86,7 @@ public:
 
     void OnAfterConfigLoad(bool reload) override
     {
-        if (reload) 
+        if (reload)
         {
             // Show this if ".reload config" command is used
             sLog->outString("");
