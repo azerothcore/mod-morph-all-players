@@ -21,11 +21,15 @@ public:
 		return CustomCommandTable;
 	}
 
-	static bool HandleMorphAllCommand(ChatHandler * handler, const char * args)
+	static bool HandleMorphAllCommand(ChatHandler * /* handler */, const char * args)
 	{
+
 		Player * player = handler->GetSession()->GetPlayer();
 
         bool configSkipSpecificGmLevel = sConfigMgr->GetBoolDefault("MorphAll.SkipSpecificGmLevel", true);
+
+        bool configSkipAdmin = sConfigMgr->GetBoolDefault("MorphAll.SkipAdmin", true);
+
 
 		if (!*args)
 			return false;
@@ -52,9 +56,8 @@ public:
 		return true;
 	}
 
-	static bool HandleDeMorphAllCommand(ChatHandler * handler, const char * args)
+	static bool HandleDeMorphAllCommand(ChatHandler * /* handler */, const char * /* args */)
 	{
-		Player * player = handler->GetSession()->GetPlayer();
 		SessionMap const& m_sessions = sWorld->GetAllSessions();
 
         for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
