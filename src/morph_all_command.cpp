@@ -24,12 +24,7 @@ public:
 	static bool HandleMorphAllCommand(ChatHandler * /* handler */, const char * args)
 	{
 
-		Player * player = handler->GetSession()->GetPlayer();
-
         bool configSkipSpecificGmLevel = sConfigMgr->GetBoolDefault("MorphAll.SkipSpecificGmLevel", true);
-
-        bool configSkipAdmin = sConfigMgr->GetBoolDefault("MorphAll.SkipAdmin", true);
-
 
 		if (!*args)
 			return false;
