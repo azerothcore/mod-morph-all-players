@@ -6,32 +6,29 @@
 #include "Config.h"
 #include "World.h"
 
-class morph_all_command : public CommandScript
+using namespace Acore::ChatCommands;
+
+class MorphAllCommandScript : public CommandScript
 {
 public:
-    morph_all_command() : CommandScript("morph_all_command") { }
+    MorphAllCommandScript() : CommandScript("MorphAllCommandScript") { }
 
-    std::vector<ChatCommand> GetCommands() const override
+    ChatCommandTable GetCommands() const override
     {
-        static std::vector<ChatCommand> CustomCommandTable =
+        static ChatCommandTable CustomCommandTable =
         {
-            { "morphall",     SEC_ADMINISTRATOR,      false,      &HandleMorphAllCommand,         "" }, //custom morph
-            { "demorphall",   SEC_ADMINISTRATOR,      false,      &HandleDeMorphAllCommand,       "" }
+            { "morphall",  HandleMorphAllCommand, SEC_ADMINISTRATOR, Console::No },
+            { "demorphall",  HandleDeMorphAllCommand, SEC_ADMINISTRATOR, Console::No },
         };
         return CustomCommandTable;
     }
 
-    static bool HandleMorphAllCommand(ChatHandler * /* handler */, const char * args)
+    static bool HandleMorphAllCommand(ChatHandler* /*handler*/, uint32 displayId)
     {
 
-        bool configSkipSpecificGmLevel = sConfigMgr->GetBoolDefault("MorphAll.SkipSpecificGmLevel", true);
+        bool configSkipSpecificGmLevel = sConfigMgr->GetOption<bool>("MorphAll.SkipSpecificGmLevel", true);
 
-        if (!*args)
-            return false;
-
-        uint16 display_id = (uint16)atoi((char*)args);
-
-        if (!display_id)
+        if (!displayId)
             return false;
 
         SessionMap const& m_sessions = sWorld->GetAllSessions();
@@ -45,13 +42,13 @@ public:
             if (itr->second->GetPlayer()->GetSession()->GetSecurity() >= configSkipSpecificGmLevel)
                 continue;
 
-            itr->second->GetPlayer()->SetDisplayId(display_id);
+            itr->second->GetPlayer()->SetDisplayId(displayId);
         }
 
         return true;
     }
 
-    static bool HandleDeMorphAllCommand(ChatHandler * /* handler */, const char * /* args */)
+    static bool HandleDeMorphAllCommand(ChatHandler* /*handler*/)
     {
         SessionMap const& m_sessions = sWorld->GetAllSessions();
 
@@ -67,32 +64,22 @@ public:
     }
 };
 
-class morph_all_command_World : public WorldScript
+class MorphAllCommandWorldScript : public WorldScript
 {
 public:
-    morph_all_command_World() : WorldScript("morph_all_command_World") { }
+    MorphAllCommandWorldScript() : WorldScript("MorphAllCommandWorldScript") { }
 
     void OnStartup() override
     {
         // Show this On worldserver startup
-        sLog->outString("");
-        sLog->outString("==============================");
-        sLog->outString("== Loaded morph_all_command ==");
-        sLog->outString("==============================");
-        sLog->outString("");
+        sLog->outMessage("server", LOG_LEVEL_INFO, "== Loaded morph all command ==");
     }
 
     void OnAfterConfigLoad(bool reload) override
     {
         if (reload)
         {
-            // Show this if ".reload config" command is used
-            sLog->outString("");
-            sLog->outString("=================================");
-            sLog->outString("== Re-Loaded morph_all_command ==");
-            sLog->outString("=================================");
-            sLog->outString("");
-
+            sLog->outMessage("server", LOG_LEVEL_INFO, "== Re-Loaded morph_all_command ==");
             sWorld->SendGMText(40000);
         }
     }
@@ -100,6 +87,6 @@ public:
 
 void AddSC_morph_all_command()
 {
-    new morph_all_command();
-    new morph_all_command_World();
+    new MorphAllCommandScript();
+    new MorphAllCommandWorldScript();
 }
