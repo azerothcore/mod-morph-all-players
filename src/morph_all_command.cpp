@@ -26,7 +26,7 @@ public:
     static bool HandleMorphAllCommand(ChatHandler* /*handler*/, uint32 displayId)
     {
 
-        bool configSkipSpecificGmLevel = sConfigMgr->GetOption<bool>("MorphAll.SkipSpecificGmLevel", true);
+        uint8 configSkipSpecificGmLevel = sConfigMgr->GetOption<uint8>("MorphAll.SkipSpecificGmLevel", 3);
 
         if (!displayId)
             return false;
