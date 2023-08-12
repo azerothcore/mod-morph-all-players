@@ -9,35 +9,35 @@
 class morph_all_command : public CommandScript
 {
 public:
-	morph_all_command() : CommandScript("morph_all_command") { }
+    morph_all_command() : CommandScript("morph_all_command") { }
 
-	std::vector<ChatCommand> GetCommands() const override
-	{
-		static std::vector<ChatCommand> CustomCommandTable =
-		{
-			{ "morphall",     SEC_ADMINISTRATOR,      false,      &HandleMorphAllCommand,         "" },	//custom morph
-			{ "demorphall",   SEC_ADMINISTRATOR,      false,      &HandleDeMorphAllCommand,       "" }
-		};
-		return CustomCommandTable;
-	}
+    std::vector<ChatCommand> GetCommands() const override
+    {
+        static std::vector<ChatCommand> CustomCommandTable =
+        {
+            { "morphall",     SEC_ADMINISTRATOR,      false,      &HandleMorphAllCommand,         "" }, //custom morph
+            { "demorphall",   SEC_ADMINISTRATOR,      false,      &HandleDeMorphAllCommand,       "" }
+        };
+        return CustomCommandTable;
+    }
 
-	static bool HandleMorphAllCommand(ChatHandler * /* handler */, const char * args)
-	{
+    static bool HandleMorphAllCommand(ChatHandler * /* handler */, const char * args)
+    {
 
         bool configSkipSpecificGmLevel = sConfigMgr->GetBoolDefault("MorphAll.SkipSpecificGmLevel", true);
 
-		if (!*args)
-			return false;
+        if (!*args)
+            return false;
 
-		uint16 display_id = (uint16)atoi((char*)args);
+        uint16 display_id = (uint16)atoi((char*)args);
 
-		if (!display_id)
-			return false;
+        if (!display_id)
+            return false;
 
-		SessionMap const& m_sessions = sWorld->GetAllSessions();
+        SessionMap const& m_sessions = sWorld->GetAllSessions();
 
-		for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
-		{
+        for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
+        {
             if (!itr->second || !itr->second->GetPlayer() || !itr->second->GetPlayer()->IsInWorld())
                 continue;
 
@@ -45,15 +45,15 @@ public:
             if (itr->second->GetPlayer()->GetSession()->GetSecurity() >= configSkipSpecificGmLevel)
                 continue;
 
-			itr->second->GetPlayer()->SetDisplayId(display_id);
-		}
+            itr->second->GetPlayer()->SetDisplayId(display_id);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	static bool HandleDeMorphAllCommand(ChatHandler * /* handler */, const char * /* args */)
-	{
-		SessionMap const& m_sessions = sWorld->GetAllSessions();
+    static bool HandleDeMorphAllCommand(ChatHandler * /* handler */, const char * /* args */)
+    {
+        SessionMap const& m_sessions = sWorld->GetAllSessions();
 
         for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
         {
@@ -63,8 +63,8 @@ public:
             itr->second->GetPlayer()->DeMorph();
         }
 
-		return true;
-	}
+        return true;
+    }
 };
 
 class morph_all_command_World : public WorldScript
@@ -100,8 +100,6 @@ public:
 
 void AddSC_morph_all_command()
 {
-	new morph_all_command();
+    new morph_all_command();
     new morph_all_command_World();
 }
-
-
