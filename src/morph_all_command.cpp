@@ -1,9 +1,9 @@
-#include "ScriptMgr.h"
 #include "Chat.h"
-#include "Player.h"
-#include "Pet.h"
-#include "Language.h"
 #include "Config.h"
+#include "Language.h"
+#include "Pet.h"
+#include "Player.h"
+#include "ScriptMgr.h"
 #include "World.h"
 
 using namespace Acore::ChatCommands;
@@ -67,7 +67,10 @@ public:
 class MorphAllCommandWorldScript : public WorldScript
 {
 public:
-    MorphAllCommandWorldScript() : WorldScript("MorphAllCommandWorldScript") { }
+    MorphAllCommandWorldScript() : WorldScript("MorphAllCommandWorldScript", {
+        WORLDHOOK_ON_STARTUP,
+        WORLDHOOK_ON_AFTER_CONFIG_LOAD
+    }) { }
 
     void OnStartup() override
     {
