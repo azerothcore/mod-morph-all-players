@@ -34,7 +34,7 @@ public:
 
         WorldSessionMgr::SessionMap const& m_sessions = sWorldSessionMgr->GetAllSessions();
 
-        for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
+        for (WorldSessionMgr::SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
         {
             if (!itr->second || !itr->second->GetPlayer() || !itr->second->GetPlayer()->IsInWorld())
                 continue;
@@ -53,7 +53,7 @@ public:
     {
         WorldSessionMgr::SessionMap const& m_sessions = sWorldSessionMgr->GetAllSessions();
 
-        for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
+        for (WorldSessionMgr::SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
         {
             if (!itr->second || !itr->second->GetPlayer() || !itr->second->GetPlayer()->IsInWorld())
                 continue;
