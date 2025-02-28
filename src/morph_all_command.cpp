@@ -84,7 +84,7 @@ public:
         if (reload)
         {
             sLog->outMessage("server", LOG_LEVEL_INFO, "== Re-Loaded morph_all_command ==");
-            sWorld->SendGMText(40000);
+            ChatHandler(nullptr).SendGMText(40000);
         }
     }
 };
