@@ -32,7 +32,7 @@ public:
         if (!displayId)
             return false;
 
-        SessionMap const& m_sessions = sWorldSessionMgr->GetAllSessions();
+        WorldSessionMgr::SessionMap const& m_sessions = sWorldSessionMgr->GetAllSessions();
 
         for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
         {
@@ -51,7 +51,7 @@ public:
 
     static bool HandleDeMorphAllCommand(ChatHandler* /*handler*/)
     {
-        SessionMap const& m_sessions = sWorldSessionMgr->GetAllSessions();
+        WorldSessionMgr::SessionMap const& m_sessions = sWorldSessionMgr->GetAllSessions();
 
         for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
         {
